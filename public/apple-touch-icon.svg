@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="goldGradLg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfba73" />
+      <stop offset="50%" stop-color="#c5a059" />
+      <stop offset="100%" stop-color="#9e7a33" />
+    </linearGradient>
+    <linearGradient id="bgGradLg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b121c" />
+      <stop offset="100%" stop-color="#142133" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="180" height="180" rx="38" fill="url(#bgGradLg)" stroke="#c5a059" stroke-width="3" stroke-opacity="0.6"/>
+
+  <!-- Subtle inner border -->
+  <rect x="8" y="8" width="164" height="164" rx="30" fill="none" stroke="#dfba73" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Roofline Chevron -->
+  <path d="M 45 84 L 90 40 L 135 84" fill="none" stroke="#0974ba" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 4 Architectural Window Panes in Gold -->
+  <rect x="77" y="58" width="11" height="11" fill="url(#goldGradLg)" rx="1.5" />
+  <rect x="92" y="58" width="11" height="11" fill="url(#goldGradLg)" rx="1.5" />
+  <rect x="77" y="73" width="11" height="11" fill="url(#goldGradLg)" rx="1.5" />
+  <rect x="92" y="73" width="11" height="11" fill="url(#goldGradLg)" rx="1.5" />
+
+  <!-- Genie Lamp Symbol -->
+  <g transform="translate(32, 85) scale(1.35)">
+    <!-- Base & Body -->
+    <path d="M 22 34 C 16 34 14 38 20 41 C 28 44 52 44 60 38 C 66 34 64 30 54 30 C 42 30 36 27 34 24 C 32 21 36 20 39 20 C 45 20 51 24 57 24 C 65 24 74 17 78 15 C 75 19 70 24 66 28 C 72 31 70 38 60 42 C 49 46 24 46 14 40 C 6 36 9 30 17 28 C 22 26 27 28 22 34 Z" fill="url(#goldGradLg)" />
+    <!-- Handle -->
+    <path d="M 18 31 C 8 26 8 16 20 20 C 24 21 24 25 18 31 Z" stroke="url(#goldGradLg)" stroke-width="3" fill="none" stroke-linecap="round" />
+    <!-- Vapor wisps -->
+    <path d="M 76 13 C 80 10 86 10 88 5 M 81 16 C 85 14 91 15 93 10" stroke="#0974ba" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  </g>
+</svg>
