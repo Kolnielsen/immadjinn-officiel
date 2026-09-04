@@ -43,7 +43,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone) {
       setStatus('error');
@@ -52,11 +52,44 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     }
 
     setStatus('submitting');
-    // Simulate high-reliability form handling with instant confirmation
-    setTimeout(() => {
-      setStatus('success');
-      if (onSuccess) onSuccess();
-    }, 900);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/hello@immadjinn.ch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `[ImmaDjinn.ch] Nouveau dossier : ${formData.projectType} - ${formData.name}`,
+          _template: 'table',
+          _captcha: 'false',
+          Nom: formData.name,
+          Email: formData.email,
+          Telephone: formData.phone,
+          Type_de_projet: formData.projectType,
+          Localisation: formData.location || 'Non précisée',
+          Message: formData.message || 'Aucun message supplémentaire'
+        })
+      });
+
+      const result = await response.json();
+      if (response.ok && (result.success === 'true' || result.success === true || result.message)) {
+        setStatus('success');
+        if (onSuccess) onSuccess();
+      } else {
+        throw new Error(result.message || "Erreur lors de l'envoi");
+      }
+    } catch (err: any) {
+      console.error('Erreur transmission formulaire:', err);
+      // Fallback: Si un bloqueur bloque le service ou en cas d'erreur réseau,
+      // on propose l'envoi direct par mailto
+      setStatus('error');
+      setErrorMessage(
+        "Une erreur est survenue lors de l'envoi direct. Vous pouvez aussi nous contacter directement à hello@immadjinn.ch ou au +41 22 512 01 20."
+      );
+    }
   };
 
   const handleReset = () => {
