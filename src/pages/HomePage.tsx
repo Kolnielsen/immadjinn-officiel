@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Page } from '../types';
 import { COMPANY_INFO, CORE_SERVICES, ADVISORY_SERVICES, STATS, PILLARS_ORCHESTRATION } from '../data/content';
 import { ContactForm } from '../components/ContactForm';
+import { PopetyValuationWidget } from '../components/PopetyValuationWidget';
 import {
   ArrowRight,
   Building2,
@@ -20,7 +21,9 @@ import {
   KeyRound,
   Calculator,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  ChevronDown,
+  ExternalLink
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -28,6 +31,8 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  const [showValuationModal, setShowValuationModal] = useState(false);
+
   const getIcon = (name: string) => {
     switch (name) {
       case 'Landmark': return <Landmark className="w-5 h-5 text-[#dfba73]" />;
@@ -292,60 +297,109 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
             ))}
 
-            {/* Complementary Advisory Card 1: Estimation */}
-            <div className="group bg-[#0e1624] border-2 border-[#c5a059]/40 hover:border-[#c5a059] rounded-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-black/50">
+            {/* Complementary Advisory Card 1: Estimation avec Widget Popety */}
+            <div className="group bg-[#0e1624] border-2 border-[#c5a059] shadow-lg shadow-[#c5a059]/10 rounded-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-black/50">
               <div>
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80"
-                    alt="Estimation et valorisation de bien immobilier à Genève"
+                    alt="Estimation et valorisation de bien immobilier à Genève et Vaud"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0e1624] via-transparent to-transparent" />
-                  <span className="absolute top-3 left-3 bg-[#c5a059] text-[#0b121c] font-bold font-serif text-xs px-2.5 py-1 rounded-sm shadow-md">
-                    OFFERT &bull; 06
+                  <span className="absolute top-3 left-3 bg-[#c5a059] text-[#0b121c] font-bold font-serif text-xs px-2.5 py-1 rounded-sm shadow-md flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" />
+                    SIMULATEUR DIRECT &bull; 06
                   </span>
                 </div>
 
                 <div className="p-6 space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-[#c5a059]/10 rounded-sm">
+                    <div className="p-2 bg-[#c5a059]/15 rounded-sm">
                       <Calculator className="w-5 h-5 text-[#dfba73]" />
                     </div>
-                    <h3 className="font-serif text-xl text-white font-normal group-hover:text-[#dfba73] transition-colors">
-                      Estimation de votre bien immobilier
-                    </h3>
+                    <div>
+                      <h3 className="font-serif text-xl text-white font-normal group-hover:text-[#dfba73] transition-colors">
+                        Estimation de votre bien immobilier
+                      </h3>
+                      <span className="text-[10px] text-[#dfba73] uppercase tracking-wider font-semibold">
+                        Moteur certifié Popety.io Suisse
+                      </span>
+                    </div>
                   </div>
 
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    Vous possédez un terrain vierge, une villa ou un immeuble sur le canton de Genève ou de Vaud ? Bénéficiez d'une analyse de valeur vénale et de potentiel constructible confidentielle.
+                    Vous possédez un terrain, une villa ou un immeuble à Genève ou dans le canton de Vaud ? Calculez instantanément sa valeur vénale et son potentiel constructible avec notre simulateur intégré.
                   </p>
 
                   <ul className="space-y-2 pt-2 border-t border-slate-800/80">
-                    <li className="text-[11px] text-slate-400 flex items-start gap-2">
+                    <li className="text-[11px] text-slate-300 flex items-start gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#dfba73] shrink-0 mt-0.5" />
-                      <span>Analyse du potentiel de densification & droit à bâtir</span>
+                      <span>Évaluation hédoniste en temps réel & transactions comparables</span>
                     </li>
-                    <li className="text-[11px] text-slate-400 flex items-start gap-2">
+                    <li className="text-[11px] text-slate-300 flex items-start gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#dfba73] shrink-0 mt-0.5" />
-                      <span>Rapport d'expertise de valeur sous 48h ouvrées</span>
+                      <span>Rapport immédiat & analyse confidentielle sans engagement</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
+              <div className="p-6 pt-0 space-y-2">
                 <button
                   id="home-cta-estimation"
-                  onClick={() => onNavigate('contact', 'estimation-immobiliere')}
-                  className="w-full py-2.5 px-4 text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#dfba73] to-[#c5a059] text-[#0b121c] rounded-sm hover:brightness-110 transition-all flex items-center justify-center gap-2 font-bold cursor-pointer"
+                  onClick={() => {
+                    const el = document.getElementById('widget-estimation-section');
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="w-full py-3 px-4 text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#dfba73] to-[#c5a059] text-[#0b121c] rounded-sm hover:brightness-110 transition-all flex items-center justify-center gap-2 font-bold cursor-pointer shadow-lg shadow-[#c5a059]/20"
                 >
-                  <span>Demander une estimation</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <Calculator className="w-4 h-4" />
+                  <span>Estimer mon bien en direct</span>
+                  <ChevronDown className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION DÉDIÉE : WIDGET D'ESTIMATION IMMOBILIÈRE DIRECTE POPETY.IO */}
+      <section id="widget-estimation-section" className="py-20 bg-[#090e16] px-4 sm:px-8 border-y border-[#c5a059]/30 relative scroll-mt-20">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0e1624] border border-[#c5a059]/40 text-[#dfba73] text-xs uppercase tracking-[0.2em] font-semibold">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Algorithme Officiel d'Évaluation Immobilière &bull; Popety.io</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl text-white font-normal uppercase tracking-wide">
+              Estimez Votre Propriété à <span className="gold-gradient-text">Genève ou Vaud</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+              Complétez les caractéristiques de votre villa, appartement, immeuble ou terrain ci-dessous pour obtenir une première évaluation hédoniste confidentielle et immédiate.
+            </p>
+          </div>
+
+          {/* Intégration du composant Popety */}
+          <PopetyValuationWidget
+            token="VFqX_ryLrk6xhgJoeqVHDmm7anmxNzyI"
+            lang="fr"
+            height="860px"
+          />
+
+          <div className="text-center pt-4">
+            <p className="text-xs text-slate-400">
+              Besoin d'un audit de constructibilité approfondi ou d'une requalification foncière ?{' '}
+              <button
+                onClick={() => onNavigate('contact', 'estimation-immobiliere')}
+                className="text-[#dfba73] underline hover:text-white transition-colors ml-1 font-medium cursor-pointer"
+              >
+                Demandez une expertise sur site avec notre équipe de direction
+              </button>
+            </p>
           </div>
         </div>
       </section>

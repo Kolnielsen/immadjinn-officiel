@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Page } from '../types';
 import { CORE_SERVICES, ADVISORY_SERVICES } from '../data/content';
+import { PopetyValuationWidget } from '../components/PopetyValuationWidget';
 import {
   Landmark,
   Compass,
@@ -13,7 +14,8 @@ import {
   ArrowRight,
   Sparkles,
   Layers,
-  Phone
+  Phone,
+  ChevronDown
 } from 'lucide-react';
 
 interface ServicesPageProps {
@@ -233,17 +235,63 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate, selected
                   </div>
                 </div>
 
-                <div className="pt-4">
-                  <button
-                    id={`advisory-cta-${service.id}`}
-                    onClick={() => onNavigate('contact', service.id)}
-                    className="w-full py-3 text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#dfba73] to-[#c5a059] text-[#0b121c] rounded-sm hover:brightness-110 transition-all font-bold"
-                  >
-                    Demander une étude confidentielle
-                  </button>
+                <div className="pt-4 space-y-2">
+                  {service.id === 'estimation-immobiliere' ? (
+                    <>
+                      <button
+                        id={`advisory-cta-${service.id}`}
+                        onClick={() => {
+                          const el = document.getElementById('services-valuation-widget');
+                          if (el) {
+                            el.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }}
+                        className="w-full py-3 text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#dfba73] to-[#c5a059] text-[#0b121c] rounded-sm hover:brightness-110 transition-all font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#c5a059]/20"
+                      >
+                        <Calculator className="w-4 h-4" />
+                        <span>Lancer le simulateur d'estimation direct</span>
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => onNavigate('contact', service.id)}
+                        className="w-full py-2 text-[11px] font-medium text-slate-400 hover:text-white transition-colors text-center block cursor-pointer"
+                      >
+                        Ou demander une étude sur site avec un directeur
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      id={`advisory-cta-${service.id}`}
+                      onClick={() => onNavigate('contact', service.id)}
+                      className="w-full py-3 text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-[#dfba73] to-[#c5a059] text-[#0b121c] rounded-sm hover:brightness-110 transition-all font-bold cursor-pointer"
+                    >
+                      Demander une étude confidentielle
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* SECTION DÉDIÉE : WIDGET D'ESTIMATION DIRECT SUR LA PAGE SERVICES */}
+          <div id="services-valuation-widget" className="pt-12 scroll-mt-28 space-y-6">
+            <div className="text-center space-y-2 max-w-3xl mx-auto">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#dfba73] font-bold bg-[#0e1624] px-3 py-1 rounded-full border border-[#c5a059]/30">
+                Simulateur En Ligne &bull; Moteur Popety.io
+              </span>
+              <h3 className="font-serif text-2xl sm:text-3xl text-white">
+                Simulateur d'Estimation Immobilière (Genève & Vaud)
+              </h3>
+              <p className="text-xs text-slate-300 font-light">
+                Indiquez l'adresse et les critères de votre bien immobilier pour obtenir une évaluation hédoniste instantanée.
+              </p>
+            </div>
+
+            <PopetyValuationWidget
+              token="VFqX_ryLrk6xhgJoeqVHDmm7anmxNzyI"
+              lang="fr"
+              height="860px"
+            />
           </div>
         </div>
       </section>
