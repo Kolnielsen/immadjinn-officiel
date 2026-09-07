@@ -3,6 +3,7 @@ import { Page } from '../types';
 import { COMPANY_INFO, CORE_SERVICES, ADVISORY_SERVICES, STATS, PILLARS_ORCHESTRATION } from '../data/content';
 import { ContactForm } from '../components/ContactForm';
 import { PopetyValuationWidget } from '../components/PopetyValuationWidget';
+import { QuickCallbackModule } from '../components/QuickCallbackModule';
 import {
   ArrowRight,
   Building2,
@@ -388,7 +389,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             height="860px"
           />
 
-          <div className="text-center pt-4">
+          {/* Module de rappel express et confidentiel */}
+          <div className="pt-6">
+            <QuickCallbackModule onSuccessNavigate={() => onNavigate('contact')} />
+          </div>
+
+          <div className="text-center pt-2">
             <p className="text-xs text-slate-400">
               Besoin d'un audit de constructibilité approfondi ou d'une requalification foncière ?{' '}
               <button
