@@ -31,8 +31,6 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
-  const [showValuationModal, setShowValuationModal] = useState(false);
-
   const getIcon = (name: string) => {
     switch (name) {
       case 'Landmark': return <Landmark className="w-5 h-5 text-[#dfba73]" />;
